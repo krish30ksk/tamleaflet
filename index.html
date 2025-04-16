@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thammampatty Range</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+<style>
+    body{
+        margin:0;
+        padding:0;
+    }
+    #map{
+        width: 100%;
+        height: 100vh;
+    }
+    .text-gradient {
+    background: linear-gradient(to right, yellow, green);
+    color: black;
+    font-weight: bold;
+    font-size: 25px;
+    padding-left: 40%; /* Optional: Adds some spacing around the text */
+    width: 100%;
+    }
+
+    .labelstyle {
+    background-color: none;
+    border-color: none;
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: yellow;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 50;
+}
+
+/* Popup Tip Hider*/
+.leaflet-popup-tip-container {
+    display: none !important;
+} 
+.leaflet-popup-content-wrapper {
+    border-radius: 5px;
+}
+/* Tooltip tip hider */
+.leaflet-tooltip-top:before, 
+.leaflet-tooltip-bottom:before, 
+.leaflet-tooltip-left:before, 
+.leaflet-tooltip-right:before {
+    border: none !important;
+}
+
+</style>
+
+</head>
+<body>
+<div class="text-gradient">Thammampatty Range</div>
+<div id="map"></div>
+
+
+
+
+
+<script src="./Jason/Vethambiyam_Beat.js"></script>
+<script src="./Jason/Belur_North.js"></script>
+<script src="./Jason/Belur_South.js"></script>
+<script src="./Jason/Paithur_South.js"></script>
+<script src="./Jason/Paithur_North.js"></script>
+<script src="./Jason/Manmalai.js"></script>
+<script src="./Jason/fireline/Fireline.js"></script>
+<script src="./Jason/row/right_of_way.js"></script>
+<script src="./Jason/row/belur_north_cairn.js"></script>
+<script src="./Jason/Cairn/bs_cairn.js"></script>
+<script src="./Jason/Cairn/mn_cairn.js"></script>
+<script src="./Jason/Cairn/pn_cairn.js"></script>
+<script src="./Jason/Cairn/ps_cairn.js"></script>
+<script src="./Jason/Cairn/vm_cairn.js"></script>
+<script src="./Jason/Assets/Asset.js"></script>
+</body>
+</html>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script>
+    //map initialization
+    var map = L.map('map').setView([11.439, 78.476], 11);
+// OSM Tile
+var osm=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+});
+osm.addTo(map);
+
+//Google Satellite Tile
+googleSat = L.tileLayer('http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+});
+googleSat.addTo(map);
+//Marker
+
+
+
+
+function bnStyle(feature) {
+            return {
+                radius: 10,
+                fillColor: 'orange',
+                color: 'black',
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+            };
+        }
+
+        // Style function for the second layer (Historical Sites)
+        function pnStyle(feature) {
+            return {
+                radius: 8,
+                fillColor: 'orange',
+                color: 'black',
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.7
+            };
+        }
+// Style function for the Manmalai layer
+function mnStyle(feature) {
+            return {
+                radius: 8,
+                fillColor: 'orange',
+                color: 'black',
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.7
+            };
+        }
+// Style function for the Paithur South layer
+function psStyle(feature) {
+            return {
+                radius: 8,
+                fillColor: 'orange',
+                color: 'black',
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.7
+            };
+        }
+// Style function for the Belur South layer
+function bsStyle(feature) {
+            return {
+                radius: 8,
+                fillColor: 'orange',
+                color: 'black',
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.7
+            };
+        }
+// Style function for the Vethambiyam layer
+function vmStyle(feature) {
+            return {
+                radius: 8,
+                fillColor: 'orange',
+                color: 'black',
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.7
+            };
+        }
+
+ // onEachFeature function for the Belur North
+ function onEachbnFeature(feature, layer) {
+            var popupContent = "Cairn"+ "</br>" +"</br>"+"Cairn No: "+feature.properties.Number+ 
+                        "</br>"+"Beat: Belur North"+"</br>"+"RF/RL: Belur RF";
+            layer.bindPopup(popupContent);
+        }
+
+// onEachFeature function for the Paithur North
+function onEachpnFeature(feature, layer) {
+            var popupContent = "Cairn"+ "</br>" +"</br>"+"Cairn No: "+feature.properties.Cairn+ 
+                        "</br>"+"Beat: Paithur North"+"</br>"+"RF/RL: Paithur RF "; 
+                                  layer.bindPopup(popupContent);
+        }
+// onEachFeature function for the Manmalai
+        function onEachmnFeature(feature, layer) {
+            var popupContent = "Cairn"+ "</br>" +"</br>"+"Cairn No: "+feature.properties.Cairn+ 
+                        "</br>"+"Beat: Manmalai"+"</br>"+"RF/RL: " +feature.properties.RF; 
+                                  layer.bindPopup(popupContent);
+        }
+// onEachFeature function for the Paithur South
+function onEachpsFeature(feature, layer) {
+            var popupContent = "Cairn"+ "</br>" +"</br>"+"Cairn No: "+feature.properties.Cairn+ 
+                        "</br>"+"Beat: Paithur South"+"</br>"+"RF/RL: Paithur RF "; 
+                                  layer.bindPopup(popupContent);
+        }
+// onEachFeature function for the Belur South
+function onEachbsFeature(feature, layer) {
+            var popupContent = "Cairn"+ "</br>" +"</br>"+"Cairn No: "+feature.properties.cairn+ 
+                        "</br>"+"Beat: Belur South"+"</br>"+"RF/RL: "+feature.properties.rf; 
+                                  layer.bindPopup(popupContent);
+        }
+// onEachFeature function for the Belur South
+function onEachvmFeature(feature, layer) {
+            var popupContent = "Cairn"+ "</br>" +"</br>"+"Cairn No: "+feature.properties.Cairn+ 
+                        "</br>"+"Beat: "+feature.properties.Beat+"</br>"+"RF/RL: "+feature.properties.rf; 
+                                  layer.bindPopup(popupContent);
+        }
+ // Add the first GeoJSON layer (Belur North) to the map
+ var bn_cairn = L.geoJSON(belur_north_cairn, {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, bnStyle(feature));
+            },
+            onEachFeature: onEachbnFeature
+        })
+
+// Add the second GeoJSON layer (Paithur North) to the map
+var pn_cairn = L.geoJSON(pn_cairnjson, {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, pnStyle(feature));
+            },
+            onEachFeature: onEachpnFeature
+        })
+// Add the second GeoJSON layer (Manmalai) to the map
+var mn_cairn = L.geoJSON(mn_cairnjson, {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, mnStyle(feature));
+            },
+            onEachFeature: onEachmnFeature
+        })
+
+// Add the second GeoJSON layer (Paithur South) to the map
+var ps_cairn = L.geoJSON(ps_cairnjson, {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, psStyle(feature));
+            },
+            onEachFeature: onEachpsFeature
+        })
+
+// Add the second GeoJSON layer (Paithur South) to the map
+var bs_cairn = L.geoJSON(bs_cairnjson, {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, bsStyle(feature));
+            },
+            onEachFeature: onEachbsFeature
+        })
+// Add the second GeoJSON layer (vethambiyam) to the map
+var vm_cairn = L.geoJSON(vm_cairnjson, {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, vmStyle(feature));
+            },
+            onEachFeature: onEachvmFeature
+        })
+
+
+// Assets
+
+
+// Style function for the Asset layer
+function asStyle(feature) {
+            return {
+                radius: 8,
+                fillColor: 'magenta',
+                color: 'black',
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.7
+            };
+        }
+// onEachFeature function for the Asset
+function onEachasFeature(feature, layer) {
+            var popupContent = "Assets"+ "</br>" +"</br>"+"Name:  "+feature.properties.name+ "</br>"
+            +"Section:  "+feature.properties.Section+ "</br>"
+            +"Beat:  "+feature.properties.Beat+ "</br>"
+            +"Location:  "+feature.properties.Location+ "</br>"
+            +"Condition:  "+feature.properties.Condition; 
+            layer.bindPopup(popupContent);
+        }
+// Add the second GeoJSON layer (Assets) to the map
+var rng_asset = L.geoJSON(assetjson, {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, asStyle(feature));
+            },
+            onEachFeature: onEachasFeature
+        })
+
+
+// Beat Jason
+var vethambiyam = L.geoJSON(vethambiyamjson,{
+    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(feature.properties.BT_NAME.toString(), 
+                        {permanent: true,direction: 'top', className: 'layerstyle'}
+                        )
+   },
+   style: {
+        fillColor:'red',
+        fillOpacity:0,
+        color:'#fc1328',
+        weight:3,
+   }
+}).addTo(map);
+var belurnorth = L.geoJSON(belurnorthjson, {
+    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(feature.properties.BT_NAME.toString(), 
+                        {permanent: true,direction: 'top', className: 'layerstyle'}
+                        )
+   },
+   style: {
+        fillColor:'red',
+        fillOpacity:0,
+        color:'#fc1328',
+        weight:3,
+   }
+}).addTo(map)
+var manmalai = L.geoJSON(manmalaijson, {
+    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(feature.properties.BT_NAME.toString(), 
+                        {permanent: true,direction: 'top', className: 'layerstyle'}
+                        )
+   },
+   style: {
+        fillColor:'red',
+        fillOpacity:0,
+        color:'#fc1328',
+        weight:3,
+   }
+}).addTo(map);
+var belursouth = L.geoJSON(belursouthjson, {
+    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(feature.properties.BT_NAME.toString(), 
+                        {permanent: true,direction: 'top', className: 'layerstyle'}
+                        )
+   },
+   style: {
+        fillColor:'red',
+        fillOpacity:0,
+        color:'#fc1328',
+        weight:3,
+   }
+}).addTo(map);
+var paithursouth = L.geoJSON(paithursouthjson, {
+    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(feature.properties.BT_NAME.toString(), 
+                        {permanent: true,direction: 'top', className: 'layerstyle'}
+                        )
+   },
+   style: {
+        fillColor:'red',
+        fillOpacity:0,
+        color:'#fc1328',
+        weight:3,
+   }
+}).addTo(map);
+var paithurnorth = L.geoJSON(paithurnorthjson, {
+    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(feature.properties.BT_NAME.toString(), 
+                        {permanent: true,direction: 'top', className: 'layerstyle'}
+                        )
+   },
+   style: {
+        fillColor:'red',
+        fillOpacity:0,
+        color:'#fc1328',
+        weight:3,
+   }
+}).addTo(map);
+
+//Tool tip
+
+vethambiyam.bindTooltip("Vethambiyam", {permanent: true, className: "labelstyle", offset: [0, 0] }).openTooltip();
+belurnorth.bindTooltip("Belur North", {permanent: true, className: "labelstyle", offset: [0, 0] }).openTooltip();
+manmalai.bindTooltip("Manmalai", {permanent: true, className: "labelstyle", offset: [0, 0] }).openTooltip();
+belursouth.bindTooltip("Belur South", {permanent: true, className: "labelstyle", offset: [0, 0] }).openTooltip();
+paithursouth.bindTooltip("Paithur South", {permanent: true, className: "labelstyle", offset: [0, 0] }).openTooltip();
+paithurnorth.bindTooltip("Paithur North", {permanent: true, className: "labelstyle", offset: [0, 0] }).openTooltip();
+
+// Fireline Jason
+var fireline = L.geoJSON(firelinejson, {
+    onEachFeature: function(feature, layer) {
+                        layer.bindPopup("Fireline"+ "</br>" + "</br>" +feature.properties.name.toString()
+                        + "</br>"+feature.properties.Scheme.toString()+ "</br>"+feature.properties.Beat.toString()+
+                         "</br>"+feature.properties.Length.toString()+ "</br>"+feature.properties.Width.toString()+
+                          "</br>"+feature.properties.Maintain.toString(), 
+                        {permanent: true,direction: 'top', className: 'layerstyle'}
+                        )
+   },
+   style: {
+        color:'#EFEE13',
+        weight:3,
+   }
+})
+//fireline.bindTooltip("Belur Adivaram to Vethambiyam", { className: "labelstyle", offset: [0, 0] }).openTooltip();
+// Right of way Json
+var right_of_way = L.geoJSON(rowjson, {
+    onEachFeature: function(feature, layer) {
+                        layer.bindPopup("Right of Way"+ "</br>" + "</br>" +feature.properties.name.toString()
+                        + "</br>"+feature.properties.Beat.toString(),{permanent: true,direction: 'top', className: 'layerstyle'}
+                        )
+   },
+   style: {
+        color:'#EFEE13',
+        weight:3,
+   }
+})
+//right_of_way.bindTooltip("Belur Adivaram to Vethambiyam", { className: "labelstyle", offset: [0, 0] }).openTooltip();
+
+
+//Layer Control
+var combine = L.layerGroup([bn_cairn, pn_cairn, mn_cairn, ps_cairn, bs_cairn, vm_cairn]);
+var baseMaps = {
+    "OpenStreetMap": osm,
+    "Google Satellite": googleSat
+};
+
+var overlayMaps = {
+    "Fireline": fireline,
+    "Right of Way": right_of_way,
+    "Cairn": combine,
+    "Assets": rng_asset
+    
+};
+L.control.layers(baseMaps, overlayMaps).addTo(map);
+</script>
+
+
+
