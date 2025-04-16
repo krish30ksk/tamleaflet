@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Thammampatty Range</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
@@ -83,7 +83,7 @@
 
 <script>
     //map initialization
-    var map = L.map('map').setView([11.439, 78.476], 11);
+    var map = map.locate({setView: true, maxZoom: 13});
 // OSM Tile
 var osm=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -402,7 +402,21 @@ var right_of_way = L.geoJSON(rowjson, {
    }
 })
 //right_of_way.bindTooltip("Belur Adivaram to Vethambiyam", { className: "labelstyle", offset: [0, 0] }).openTooltip();
+function onLocationFound(e) {
+    var radius = e.accuracy;
 
+    L.marker(e.latlng).addTo(map)
+        .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+    L.circle(e.latlng, radius).addTo(map);
+}
+
+map.on('locationfound', onLocationFound);
+function onLocationError(e) {
+    alert(e.message);
+}
+
+map.on('locationerror', onLocationError);
 
 //Layer Control
 var combine = L.layerGroup([bn_cairn, pn_cairn, mn_cairn, ps_cairn, bs_cairn, vm_cairn]);
