@@ -83,7 +83,24 @@
 
 <script>
     //map initialization
-    var map = map.locate({setView: true, maxZoom: 13});
+    var map = L.map('map').fitWorld();
+    map.locate({setView: true, maxZoom: 11});
+    function onLocationFound(e) {
+    var radius = e.accuracy;
+
+    L.marker(e.latlng).addTo(map)
+        .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+    L.circle(e.latlng, radius).addTo(map);
+}
+
+map.on('locationfound', onLocationFound);
+
+function onLocationError(e) {
+    alert(e.message);
+}
+
+map.on('locationerror', onLocationError);
 // OSM Tile
 var osm=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -402,21 +419,7 @@ var right_of_way = L.geoJSON(rowjson, {
    }
 })
 //right_of_way.bindTooltip("Belur Adivaram to Vethambiyam", { className: "labelstyle", offset: [0, 0] }).openTooltip();
-function onLocationFound(e) {
-    var radius = e.accuracy;
 
-    L.marker(e.latlng).addTo(map)
-        .bindPopup("You are within " + radius + " meters from this point").openPopup();
-
-    L.circle(e.latlng, radius).addTo(map);
-}
-
-map.on('locationfound', onLocationFound);
-function onLocationError(e) {
-    alert(e.message);
-}
-
-map.on('locationerror', onLocationError);
 
 //Layer Control
 var combine = L.layerGroup([bn_cairn, pn_cairn, mn_cairn, ps_cairn, bs_cairn, vm_cairn]);
