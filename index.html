@@ -5,9 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Thammampatty Range</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 <style>
+    
     body{
+        font-family: 'Inter', sans-serif;
+        }
+        .nav-item.active {
+            border-bottom: 2px solid blue;
         margin:0;
         padding:0;
     }
@@ -35,7 +43,26 @@
     font-size: 13px;
     padding: 50;
 }
-
+    .custom-tooltip {
+            background-color: yellow;
+            color: black;
+            border: 2px solid green;
+            border-radius: 5px;
+            padding: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+.placestyle {
+    background-color: none;
+    border-color: none;
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: magenta;
+    font-weight: bold;
+    font-size: 8px;
+    padding: 50;
+}
 /* Popup Tip Hider*/
 .leaflet-popup-tip-container {
     display: none !important;
@@ -54,8 +81,28 @@
 </style>
 
 </head>
-<body>
-<div class="text-gradient">Thammampatty Range</div>
+
+<body class="bg-gray-100">
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="Data\tamilnadu_logo.png" alt="Logo" class="mr-2 h-8" >
+                <div class="text-sm">
+                    <div class="font-semibold text-gray-800">THAMMAMPATTY RANGE</div>
+                    <div class="text-gray-600">Tamil Nadu Forest Department</div>
+                </div>
+            </div>
+            <nav class="flex items-center">
+                <a href="#" class="nav-item text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200 active" id="home">Home</a>
+                <a href="#" class="nav-item text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200" id="fire">Fireline</a>
+                <a href="#" class="nav-item text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200" id="cairn">Cairn</a>
+                <a href="#" class="nav-item text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200" id="asset">Assets</a>
+                <a href="#" class="nav-item text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200" id="row">Right of Way</a>
+                <a href="about.html" class="nav-item text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200" id="about">About us</a>
+                <a href="contact.html" class="nav-item text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200" id="contact">Contact us </a>
+            </nav>
+        </div>
+    </header>
 <div id="map"></div>
 
 
@@ -77,30 +124,16 @@
 <script src="./Jason/Cairn/ps_cairn.js"></script>
 <script src="./Jason/Cairn/vm_cairn.js"></script>
 <script src="./Jason/Assets/Asset.js"></script>
+<script src="./Jason/place.js"></script>
 </body>
 </html>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <script>
     //map initialization
-    var map = L.map('map').fitWorld();
-    map.locate({setView: true, maxZoom: 11});
-    function onLocationFound(e) {
-    var radius = e.accuracy;
-
-    L.marker(e.latlng).addTo(map)
-        .bindPopup("You are within " + radius + " meters from this point").openPopup();
-
-    L.circle(e.latlng, radius).addTo(map);
-}
-
-map.on('locationfound', onLocationFound);
-
-function onLocationError(e) {
-    alert(e.message);
-}
-
-map.on('locationerror', onLocationError);
+    
+    var map = L.map('map').setView([11.478209, 78.542429], 11);
+    let homeview = true;
 // OSM Tile
 var osm=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -128,63 +161,6 @@ function bnStyle(feature) {
                 fillOpacity: 0.8
             };
         }
-
-        // Style function for the second layer (Historical Sites)
-        function pnStyle(feature) {
-            return {
-                radius: 8,
-                fillColor: 'orange',
-                color: 'black',
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.7
-            };
-        }
-// Style function for the Manmalai layer
-function mnStyle(feature) {
-            return {
-                radius: 8,
-                fillColor: 'orange',
-                color: 'black',
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.7
-            };
-        }
-// Style function for the Paithur South layer
-function psStyle(feature) {
-            return {
-                radius: 8,
-                fillColor: 'orange',
-                color: 'black',
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.7
-            };
-        }
-// Style function for the Belur South layer
-function bsStyle(feature) {
-            return {
-                radius: 8,
-                fillColor: 'orange',
-                color: 'black',
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.7
-            };
-        }
-// Style function for the Vethambiyam layer
-function vmStyle(feature) {
-            return {
-                radius: 8,
-                fillColor: 'orange',
-                color: 'black',
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.7
-            };
-        }
-
  // onEachFeature function for the Belur North
  function onEachbnFeature(feature, layer) {
             var popupContent = "Cairn"+ "</br>" +"</br>"+"Cairn No: "+feature.properties.Number+ 
@@ -233,14 +209,14 @@ function onEachvmFeature(feature, layer) {
 // Add the second GeoJSON layer (Paithur North) to the map
 var pn_cairn = L.geoJSON(pn_cairnjson, {
             pointToLayer: function (feature, latlng) {
-                return L.circleMarker(latlng, pnStyle(feature));
+                return L.circleMarker(latlng, bnStyle(feature));
             },
             onEachFeature: onEachpnFeature
         })
 // Add the second GeoJSON layer (Manmalai) to the map
 var mn_cairn = L.geoJSON(mn_cairnjson, {
             pointToLayer: function (feature, latlng) {
-                return L.circleMarker(latlng, mnStyle(feature));
+                return L.circleMarker(latlng, bnStyle(feature));
             },
             onEachFeature: onEachmnFeature
         })
@@ -248,7 +224,7 @@ var mn_cairn = L.geoJSON(mn_cairnjson, {
 // Add the second GeoJSON layer (Paithur South) to the map
 var ps_cairn = L.geoJSON(ps_cairnjson, {
             pointToLayer: function (feature, latlng) {
-                return L.circleMarker(latlng, psStyle(feature));
+                return L.circleMarker(latlng, bnStyle(feature));
             },
             onEachFeature: onEachpsFeature
         })
@@ -256,14 +232,14 @@ var ps_cairn = L.geoJSON(ps_cairnjson, {
 // Add the second GeoJSON layer (Paithur South) to the map
 var bs_cairn = L.geoJSON(bs_cairnjson, {
             pointToLayer: function (feature, latlng) {
-                return L.circleMarker(latlng, bsStyle(feature));
+                return L.circleMarker(latlng, bnStyle(feature));
             },
             onEachFeature: onEachbsFeature
         })
 // Add the second GeoJSON layer (vethambiyam) to the map
 var vm_cairn = L.geoJSON(vm_cairnjson, {
             pointToLayer: function (feature, latlng) {
-                return L.circleMarker(latlng, vmStyle(feature));
+                return L.circleMarker(latlng, bnStyle(feature));
             },
             onEachFeature: onEachvmFeature
         })
@@ -380,7 +356,51 @@ var paithurnorth = L.geoJSON(paithurnorthjson, {
         weight:3,
    }
 }).addTo(map);
+let placesLayer = null;
+const targetZoom = 15; // Define the zoom level at which you want to show the markers
+ // Declare a variable to hold the GeoJSON layer
+// Places
+function plStyle(feature) {
+            return {
+                radius: 0,  // Increased radius for visibility
+                //fillColor: 'blue', // Added fill color
+                //color: 'white',    // Added border color
+                weight: 0,
+                opacity: 0,
+                fillOpacity: 0
+            };
+        }
+        function onEachplFeature(feature, layer) {
+            var popupContent = "<b>" + feature.properties.name;
+            layer.bindPopup(popupContent);
+            layer.bindTooltip(popupContent, {
+                className: 'placestyle',
+                permanent: true,
+                direction: 'top'
+            });
+        }
 
+        function updateMarkers() {
+            if (map.getZoom() >= targetZoom) {
+                if (!placesLayer) {
+                    placesLayer = L.geoJSON(placejson, {
+                        pointToLayer: function (feature, latlng) {
+                            return L.circleMarker(latlng, plStyle(feature));
+                        },
+                        onEachFeature: onEachplFeature
+                    }).addTo(map);
+                }
+            } else {
+                if (placesLayer) {
+                    map.removeLayer(placesLayer);
+                    placesLayer = null; //remove the layer
+                }
+            }
+        }
+        // Initial call in case the map starts at the target zoom level
+        updateMarkers();
+        // Event listener for zoom changes
+        map.on('zoomend', updateMarkers);
 //Tool tip
 
 vethambiyam.bindTooltip("Vethambiyam", {permanent: true, className: "labelstyle", offset: [0, 0] }).openTooltip();
@@ -418,7 +438,7 @@ var right_of_way = L.geoJSON(rowjson, {
         weight:3,
    }
 })
-//right_of_way.bindTooltip("Belur Adivaram to Vethambiyam", { className: "labelstyle", offset: [0, 0] }).openTooltip();
+
 
 
 //Layer Control
@@ -436,6 +456,107 @@ var overlayMaps = {
     
 };
 L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+
+// Initial map state (Home view)
+let homeView = true;
+map.setView([11.4436, 78.5439], 11);
+// Layer control functions
+function showFirelineLayer() {
+    if (homeView) {
+        fireline.addTo(map);
+        homeView = false;
+    }
+     if (map.hasLayer(right_of_way)) {
+        map.removeLayer(right_of_way);
+        fireline.addTo(map);
+    }
+    if (map.hasLayer(combine)) {
+        map.removeLayer(combine);
+        fireline.addTo(map);
+    }
+    if (map.hasLayer(rng_asset)) {
+        map.removeLayer(rng_asset);
+        fireline.addTo(map);
+    }
+
+}
+function showAssetsLayer() {
+    if (homeview) {
+        rng_asset.addTo(map);
+        homeView = false;
+    }
+    if (map.hasLayer(fireline)) {
+        map.removeLayer(fireline);
+        rng_asset.addTo(map);
+    }
+    if (map.hasLayer(right_of_way)) {
+        map.removeLayer(right_of_way);
+        rng_asset.addTo(map);
+    }
+    if (map.hasLayer(combine)) {
+        map.removeLayer(combine);
+        rng_asset.addTo(map);
+    }
+}
+
+function showCairnLayer() {
+    if (homeView) {
+        combine.addTo(map);
+        homeView = false;
+    }
+     if (map.hasLayer(fireline)) {
+        map.removeLayer(fireline);
+        combine.addTo(map);
+    }
+    if (map.hasLayer(right_of_way)) {
+        map.removeLayer(right_of_way);
+        combine.addTo(map);
+    }
+    if (map.hasLayer(rng_asset)) {
+        map.removeLayer(rng_asset);
+        combine.addTo(map);
+    }
+}
+
+function showCairnLayer() {
+    if (homeView) {
+        right_of_way.addTo(map);
+        homeView = false;
+    }
+     if (map.hasLayer(fireline)) {
+        map.removeLayer(fireline);
+        right_of_way.addTo(map);
+    }
+    if (map.hasLayer(combine)) {
+        map.removeLayer(combine);
+        right_of_way.addTo(map);
+    }
+    if (map.hasLayer(rng_asset)) {
+        map.removeLayer(rng_asset);
+        right_of_way.addTo(map);
+    }
+}
+
+function showHomeView() {
+    map.setView([11.478209, 78.542429], 11); // Reset to default home view
+    if (!homeView) {
+        map.removeLayer(fireline); // Ensure layers are added back if coming from another view
+        map.removeLayer(rng_asset);
+        map.removeLayer(right_of_way);
+        map.removeLayer(combine);
+        homeView = true;
+    }
+
+}
+// Event listeners for the navigation buttons
+document.getElementById('home').addEventListener('click', showHomeView);
+document.getElementById('fire').addEventListener('click', showFirelineLayer);
+document.getElementById('asset').addEventListener('click', showAssetsLayer);
+document.getElementById('cairn').addEventListener('click', showCairnLayer);
+document.getElementById('row').addEventListener('click', showCairnLayer);
+
+
 </script>
 
 
