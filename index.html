@@ -10,26 +10,53 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
 <style>
+    /* Custom CSS for the dropdown icons */
+    .down-arrow::after {
+        content: "▼"; /* Down arrow character */
+        margin-left: 0.5rem; /* Add some space between text and arrow */
+        font-size: 0.8em; /* Adjust size if needed */
+    }
+    .up-arrow::after {
+        content: "▲"; /* Up arrow character */
+        margin-left: 0.5rem;
+        font-size: 0.8em;
+    }
+
+    /* Mobile menu specific styles */
     @media (max-width: 767px) { /* Adjust breakpoint as needed */
-    .nav-item {
-        display: block; /* Stack links vertically on smaller screens */
-        margin: 0.5rem 0;
-        padding: 0.75rem 1rem;
-        border-bottom: none !important; /* Remove the active border initially */
+        .nav-item {
+            display: block; /* Stack links vertically on smaller screens */
+            margin: 0.5rem 0;
+            padding: 0.75rem 1rem;
+            border-bottom: none !important; /* Remove the active border initially */
+        }
+        #mobile-menu {
+            position: absolute;
+            top: 100%; /* Position below the header */
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 10; /* Ensure it's above the map */
+            display: none; /* Initially hide the menu */
+        }
+        .mobile-menu-open #mobile-menu {
+            display: block !important;
+        }
+        #mobile-menu-button {
+            display: block; /* Make sure the button is visible on mobile */
+        }
     }
-    #mobile-menu {
-        position: absolute;
-        top: 100%; /* Position below the header */
-        left: 0;
-        width: 100%;
-        background-color: white;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        z-index: 10; /* Ensure it's above the map */
+    @media (min-width: 768px) {
+        #mobile-menu-button{
+            display: none;
+        }
     }
-    .mobile-menu-open #mobile-menu {
-        display: block !important;
+    .nav-item.active {
+        border-bottom: 2px solid blue;
+        margin:0;
+        padding:0;
     }
-}
     body{
         font-family: 'Inter', sans-serif;
         }
@@ -157,19 +184,19 @@
 
 <script>
     const mobileMenuButton = document.getElementById('mobile-menu-button');
-const mobileMenu = document.getElementById('mobile-menu');
-const header = document.querySelector('header');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const header = document.querySelector('header');
 
-mobileMenuButton.addEventListener('click', () => {
-    header.classList.toggle('mobile-menu');
-});
+    mobileMenuButton.addEventListener('click', () => {
+        header.classList.toggle('mobile-menu-open');
+    });
 
-// Ensure the menu is closed on wider screens if it was open
-window.addEventListener('resize', () => {
-    if (window.innerWidth >= 768) { // Same breakpoint as CSS
-        header.classList.remove('mobile-menu-open');
-    }
-});
+    // Ensure the menu is closed on wider screens if it was open
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768) { // Same breakpoint as CSS
+            header.classList.remove('mobile-menu-open');
+        }
+    });
     //map initialization
     
     var map = L.map('map').setView([11.478209, 78.542429], 11);
