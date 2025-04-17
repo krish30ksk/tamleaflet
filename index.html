@@ -153,8 +153,8 @@ googleSat.addTo(map);
 
 function bnStyle(feature) {
             return {
-                radius: 10,
-                fillColor: 'orange',
+                radius: 5,
+                fillColor: 'red',
                 color: 'black',
                 weight: 1,
                 opacity: 1,
@@ -251,7 +251,7 @@ var vm_cairn = L.geoJSON(vm_cairnjson, {
 // Style function for the Asset layer
 function asStyle(feature) {
             return {
-                radius: 8,
+                radius: 5,
                 fillColor: 'magenta',
                 color: 'black',
                 weight: 1,
@@ -519,7 +519,7 @@ function showCairnLayer() {
     }
 }
 
-function showCairnLayer() {
+function showrightofwayLayer() {
     if (homeView) {
         right_of_way.addTo(map);
         homeView = false;
@@ -554,7 +554,7 @@ document.getElementById('home').addEventListener('click', showHomeView);
 document.getElementById('fire').addEventListener('click', showFirelineLayer);
 document.getElementById('asset').addEventListener('click', showAssetsLayer);
 document.getElementById('cairn').addEventListener('click', showCairnLayer);
-document.getElementById('row').addEventListener('click', showCairnLayer);
+document.getElementById('row').addEventListener('click', showrightofwayLayer);
 
 
 </script>
