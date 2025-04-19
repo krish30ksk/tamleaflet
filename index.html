@@ -92,8 +92,39 @@
       }
 
       .nav-menu {
-        display: flex;
-      }
+    display: none; /* Initially hide the menu on smaller screens */
+    /* Add other styles for how you want the mobile menu to look */
+    position: absolute; /* Or fixed, depending on your layout */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f9f9f9; /* Example background */
+    padding: 20px;
+    z-index: 10000; /* Ensure it's on top of other elements */
+    /* Add transitions for smooth animation if desired */
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(-100%); /* Slide it off-screen initially */
+}
+.nav-menu.active {
+    display: block; /* Or flex/grid depending on your menu items */
+    transform: translateX(0); /* Slide it into view */
+}
+Ensure the menu items are displayed correctly within the active menu */
+.nav-menu.active .nav-item {
+    display: block; /* Display items stacked on mobile */
+    margin-bottom: 10px; /* Add some spacing */
+}
+
+/* Hide the standard navigation on mobile */
+.nav-container nav > ul {
+    display: none;
+}
+/* Show the mobile menu toggle on mobile */
+.menu-toggle {
+    display: block; /* Make the toggle visible */
+    cursor: pointer;
+    /* Style your toggle button (bars, etc.) */
+}
 
       .nav-item {
         margin-left: 15px;
@@ -263,7 +294,7 @@
           flex-direction: column;
           box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
           padding: 10px 0;
-            padding-right: 50px;
+          padding-right: 20px;
         }
 
         .nav-menu.active {
@@ -313,11 +344,13 @@
         .content h1 {
           font-size: 1.5em;
         }
-
+        .nav-container nav > ul {
+        display: flex; /* Show the standard navigation */
+        align-items: center; /* Align items vertically */
+    }
         .content p {
           font-size: 0.9em;
         }
-
       }
     /* old Code */
     
@@ -477,10 +510,8 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <script>
-
 // JavaScript for mobile menu toggle and theme switching
-// JavaScript for mobile menu toggle and theme switching
-const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
         const navMenu = document.getElementById('nav-menu');
         const navLinks = document.querySelectorAll('.nav-link');
         const dropdowns = document.querySelectorAll('.dropdown');
