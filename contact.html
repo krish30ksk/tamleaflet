@@ -9,6 +9,303 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+
+        
+    /* Reset some default browser styles */
+    body, h1, p, ul, li, a {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+            text-decoration: none;
+            list-style: none;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 60px; /* Adjust for fixed header */
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 10px 20px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-right: 40px;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: red;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+        }
+
+        .logo-icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 8px;
+  background-image: url("Data/tamilnadu_logo.png"); /* Corrected line */
+  background-size: cover; /* To make the image fit within the circle */
+  background-repeat: no-repeat; /* To prevent the image from repeating */
+  background-position: center; /* To center the image within the circle */
+  border-radius: 50%;
+  display: inline-block;
+}
+
+        .nav-menu {
+            display: flex;
+        }
+
+        .nav-item {
+            margin-left: 15px;
+            position: relative;
+        }
+
+        .nav-link {
+            color: #333;
+            font-weight: 500;
+            font-size: 1em;
+            padding: 8px 0;
+            display: block;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, #FF5F6D, #FFC371);
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #FF5F6D;
+        }
+
+        .nav-link:hover::before,
+        .nav-link.active::before {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            padding: 5px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 8px 15px;
+            color: #333;
+            transition: background-color 0.2s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f0f0f0;
+            color: #FF5F6D;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: #333;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-indicator {
+            position: absolute;
+            bottom: -2px;
+            height: 2px;
+            border-radius: 2px;
+            background: linear-gradient(to right, #FF5F6D, #FFC371);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .content {
+            max-width: 90%;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .content h1 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.8em;
+        }
+
+        .content p {
+            color: #666;
+            line-height: 1.5;
+            font-size: 1em;
+        }
+
+        .theme-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .theme-btn {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-btn.default {
+            background: linear-gradient(135deg, #FF5F6D, #FFC371);
+        }
+
+        .theme-btn.blue {
+            background: linear-gradient(135deg, #12c2e9, #c471ed);
+        }
+
+        .theme-btn.green {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+        }
+
+        .theme-btn.purple {
+            background: linear-gradient(135deg, #834d9b, #d04ed6);
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: #fff;
+                flex-direction: column;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                padding: 10px 0;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-item {
+                margin-left: 0;
+                padding: 8px 15px;
+            }
+
+            .nav-link {
+                padding: 8px 15px;
+            }
+
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                transform: none;
+                opacity: 1;
+                visibility: visible;
+                padding-left: 20px;
+            }
+
+            .dropdown:hover .dropdown-menu {
+                transform: none;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-indicator {
+                display: none;
+            }
+
+            .theme-buttons {
+                bottom: 15px;
+                right: 15px;
+            }
+
+            .content {
+                margin-top: 60px; /* Adjust for fixed header */
+                padding: 0 20px;
+            }
+
+            .content h1 {
+                font-size: 1.5em;
+            }
+
+            .content p {
+                font-size: 0.9em;
+            }
+        }
+    
+    /* old Code */
+    
+
+
+
         body {
             font-family: 'Inter', sans-serif;
         }
@@ -16,6 +313,7 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            padding-top: 50px;
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -57,24 +355,48 @@
     </style>
 </head>
 <body class="bg-gray-100">
-    <header class="bg-white shadow-md">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center">
-                <img src="Data\tamilnadu_logo.png" alt="Logo" class="mr-2 h-8" >
-                <div class="text-sm">
-                    <div class="font-semibold text-gray-800">THAMMAMPATTY RANGE</div>
-                    <div class="text-gray-600">Tamil Nadu Forest Department</div>
-                </div>
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span class="logo-icon"></span>
+                TAMILNADU FOREST DEPARTMENT <br> THAMMAMPATTY RANGE
+            </a>
+
+            <div class="menu-toggle">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
             </div>
-            <nav class="flex items-center">
-                <a href="index.html" class="nav-item text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200">Home</a>
-                <a href="index.html" class="nav-item text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200">Fireline</a>
-                <a href="index.html" class="nav-item text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200">Cairn</a>
-                <a href="index.html" class="nav-item text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200">Assets</a>
-                <a href="index.html" class="nav-item text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200">Right of Way</a>
-                <a href="about.html" class="nav-item text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200">About us</a>
-                <a href="contact.html" class="nav-item text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200 active">Contact us </a>
-            </nav>
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active" data-index="0" id="home">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link" data-index="1">Layers</a>
+                    <div class="dropdown-menu">
+                        <a href="index.html" class="dropdown-item" id="fire">Fireline</a>
+                        <a href="index.html" class="dropdown-item" id="row">Right of Way</a>
+                        <a href="index.html" class="dropdown-item" id="cairn">Cairn</a>
+                        <a href="index.html" class="dropdown-item" id="asset">Assets</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-index="2">Portfolio</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="about.html" class="nav-link" data-index="3">About</a>
+                    <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item">Our Team</a>
+                        <a href="#" class="dropdown-item">Our Story</a>
+                        <a href="#" class="dropdown-item">Mission & Vision</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link" data-index="4">Contact</a>
+                </li>
+                <div class="nav-indicator"></div>
+            </ul>
         </div>
     </header>
 
@@ -102,3 +424,167 @@
     </footer>
 </body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navMenu = document.querySelector('.nav-menu');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const dropdowns = document.querySelectorAll('.dropdown');
+  const themeButtons = document.querySelectorAll('.theme-btn');
+  const navIndicator = document.querySelector('.nav-indicator');
+  const header = document.querySelector('.header');
+  const badge = document.querySelector('.badge');
+
+  // Initialize nav indicator position
+  function setIndicatorPosition(el) {
+    if (el && window.innerWidth > 768) {
+      navIndicator.style.width = `${el.offsetWidth}px`;
+      navIndicator.style.left = `${el.offsetLeft}px`;
+    } else if (window.innerWidth <= 768) {
+      navIndicator.style.width = '0';
+      navIndicator.style.left = '0';
+    }
+  }
+
+  // Set initial indicator position
+  setIndicatorPosition(document.querySelector('.nav-link.active'));
+
+  // Show notification badge after 2 seconds
+  setTimeout(() => {
+    if (badge) {
+      badge.classList.add('show');
+    }
+  }, 2000);
+
+  // Mobile menu toggle
+  if (menuToggle) {
+    menuToggle.addEventListener('click', function() {
+      navMenu.classList.toggle('active');
+      this.classList.toggle('active');
+    });
+  }
+
+  // Toggle dropdown on mobile
+  if (window.innerWidth <= 768) {
+    dropdowns.forEach(dropdown => {
+      const dropdownLink = dropdown.querySelector('.nav-link');
+      dropdownLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        dropdown.querySelector('.dropdown-menu').classList.toggle('active');
+      });
+    });
+  }
+
+  // Navigation links click effect and indicator movement
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      if (!this.parentElement.classList.contains('dropdown') || window.innerWidth <= 768) {
+        navLinks.forEach(navLink => navLink.classList.remove('active'));
+        this.classList.add('active');
+        setIndicatorPosition(this);
+        if (window.innerWidth <= 768 && navMenu.classList.contains('active')) {
+          navMenu.classList.remove('active');
+          menuToggle.classList.remove('active');
+        }
+      }
+    });
+  });
+
+  // Mouse enter for indicator on desktop
+  navMenu.addEventListener('mouseenter', function(e) {
+    if (window.innerWidth > 768) {
+      const target = e.target;
+      if (target.classList.contains('nav-link')) {
+        setIndicatorPosition(target);
+      }
+    }
+  });
+
+  // Mouse leave resets indicator to active link on desktop
+  navMenu.addEventListener('mouseleave', function() {
+    if (window.innerWidth > 768) {
+      setIndicatorPosition(document.querySelector('.nav-link.active'));
+    }
+  });
+
+  // Color theme switcher
+  themeButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const theme = this.getAttribute('data-theme');
+      changeColorTheme(theme);
+    });
+  });
+
+  function changeColorTheme(theme) {
+    let primaryColor, secondaryColor;
+
+    switch (theme) {
+      case 'blue':
+        primaryColor = '#12c2e9';
+        secondaryColor = '#c471ed';
+        break;
+      case 'green':
+        primaryColor = '#11998e';
+        secondaryColor = '#38ef7d';
+        break;
+      case 'purple':
+        primaryColor = '#834d9b';
+        secondaryColor = '#d04ed6';
+        break;
+      default: // Default theme
+        primaryColor = '#FF5F6D';
+        secondaryColor = '#FFC371';
+    }
+
+    document.documentElement.style.setProperty('--primary-color', primaryColor);
+    document.documentElement.style.setProperty('--secondary-color', secondaryColor);
+
+    const gradientElements = document.querySelectorAll('.logo-icon, .nav-link::before, .nav-indicator, .badge');
+    gradientElements.forEach(el => {
+      el.style.backgroundImage = `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`;
+    });
+
+    navLinks.forEach(link => {
+      link.style.setProperty('--hover-color', primaryColor);
+      if (link.classList.contains('active')) {
+        link.style.color = primaryColor;
+      }
+    });
+  }
+
+  // Initial theme setup (if needed, based on local storage or default)
+  // For now, the default CSS theme will apply.
+
+  // Resize observer for dynamic indicator adjustment
+  const resizeObserver = new ResizeObserver(entries => {
+    const activeLink = document.querySelector('.nav-link.active');
+    setIndicatorPosition(activeLink);
+  });
+
+  navLinks.forEach(link => {
+    resizeObserver.observe(link);
+  });
+
+  // Handle resize for mobile and desktop
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 768) {
+      navMenu.classList.remove('active');
+      menuToggle.classList.remove('active');
+      // Ensure mobile menu icon is reset
+      if (menuToggle) {
+        menuToggle.classList.remove('active');
+      }
+      // Reset dropdowns
+      dropdowns.forEach(dropdown => {
+        dropdown.querySelector('.dropdown-menu').classList.remove('active');
+      });
+    }
+    const activeLink = document.querySelector('.nav-link.active');
+    setIndicatorPosition(activeLink);
+  });
+});
+
+
+
+
+</script>
